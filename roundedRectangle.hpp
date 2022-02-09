@@ -23,7 +23,7 @@
 //
 // This software has been modified from its original version,
 // by condensing it into a single header file.
-// The original can be found on the SFML wiki, written by Rémi Bèges:
+// The original, written by RÃ©mi BÃ¨ges, can be found on the SFML wiki:
 // https://github.com/SFML/SFML/wiki/Source%3A-Draw-Rounded-Rectangle
 //
 ////////////////////////////////////////////////////////////
