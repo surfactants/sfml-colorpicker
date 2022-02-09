@@ -185,7 +185,7 @@ void Color_Selector::slide(sf::Vector2i mousePos){
 }
 
 void Color_Selector::setHue(){
-    const double hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y) * 360;
+    const double hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y);
     const int hp = hue * 6;
     for(unsigned int y=0; y<256; y++){
         for(unsigned int x=0; x<256; x++){
