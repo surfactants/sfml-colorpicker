@@ -21,10 +21,6 @@
 
 #include "colorSelector.h"
 
-///////////////////////////////////
-//BEGIN COLOR_SELECTOR IMPLEMENTATION
-///////////////////////////////////
-
 Color_Selector::Color_Selector(){
     alpha = 255;
     sf::Vector2f size = sf::Vector2f(256,256);
@@ -245,7 +241,3 @@ void Color_Selector::select(sf::Vector2i mousePos){
     selected.setFillColor(selected_color);
     selector.setFillColor(selected_color);
 }
-
-///////////////////////////////////
-//END COLOR_SELECTOR IMPLEMENTATION
-///////////////////////////////////
