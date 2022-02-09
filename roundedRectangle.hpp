@@ -19,15 +19,6 @@
 //
 ////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////
-//
-// This software has been modified from its original version,
-// by condensing it into a single header file.
-// The original, written by Rémi Bèges, can be found on the SFML wiki:
-// https://github.com/SFML/SFML/wiki/Source%3A-Draw-Rounded-Rectangle
-//
-////////////////////////////////////////////////////////////
-
 #ifndef ROUNDEDRECTANGLESHAPE_HPP
 #define ROUNDEDRECTANGLESHAPE_HPP
 
@@ -35,7 +26,6 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include <SFML/Graphics/Shape.hpp>
-#include <cmath>
 
 namespace sf
 {
@@ -54,12 +44,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \param pointCount Number of points of each corner
         ///
         ////////////////////////////////////////////////////////////
-        explicit RoundedRectangleShape(const Vector2f& size = Vector2f(0, 0), float radius = 0, unsigned int cornerPointCount = 0){
-            mySize = size;
-            myRadius = radius;
-            myCornerPointCount = cornerPointCount;
-            update();
-        }
+        explicit RoundedRectangleShape(const Vector2f& size = Vector2f(0, 0), float radius = 0, unsigned int cornerPointCount = 0);
 
         ////////////////////////////////////////////////////////////
         /// \brief Set the size of the rounded rectangle
@@ -69,10 +54,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see GetSize
         ///
         ////////////////////////////////////////////////////////////
-        void setSize(const Vector2f& size){
-            mySize = size;
-            update();
-        }
+        void setSize(const Vector2f& size);
 
         ////////////////////////////////////////////////////////////
         /// \brief Get the size of the rounded rectangle
@@ -82,9 +64,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see SetSize
         ///
         ////////////////////////////////////////////////////////////
-        const Vector2f& getSize() const{
-            return mySize;
-        }
+        const Vector2f& getSize() const;
 
         ////////////////////////////////////////////////////////////
         /// \brief Set the radius of the rounded corners
@@ -94,10 +74,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see GetRadius
         ///
         ////////////////////////////////////////////////////////////
-        void setCornersRadius(float radius){
-            myRadius = radius;
-            update();
-        }
+        void setCornersRadius(float radius);
 
         ////////////////////////////////////////////////////////////
         /// \brief Get the radius of the rounded corners
@@ -107,9 +84,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see SetRadius
         ///
         ////////////////////////////////////////////////////////////
-        const float getCornersRadius() const{
-            return myRadius;
-        }
+        const float getCornersRadius() const;
 
         ////////////////////////////////////////////////////////////
         /// \brief Set the number of points of each corner
@@ -119,10 +94,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \see GetPointCount
         ///
         ////////////////////////////////////////////////////////////
-        void setCornerPointCount(unsigned int count){
-            myCornerPointCount = count;
-            update();
-        }
+        void setCornerPointCount(unsigned int count);
 
         ////////////////////////////////////////////////////////////
         /// \brief Get the number of points defining the rounded rectangle
@@ -130,9 +102,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \return Number of points of the rounded rectangle
         ///
         ////////////////////////////////////////////////////////////
-        virtual std::size_t getPointCount() const{
-            return myCornerPointCount*4;
-        }
+        virtual std::size_t getPointCount() const;
 
         ////////////////////////////////////////////////////////////
         /// \brief Get a point of the rounded rectangle
@@ -144,26 +114,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \return Index-th point of the shape
         ///
         ////////////////////////////////////////////////////////////
-        virtual sf::Vector2f getPoint(std::size_t index) const{
-            if(index >= myCornerPointCount*4)
-                return sf::Vector2f(0,0);
-
-            float deltaAngle = 90.0f/(myCornerPointCount-1);
-            sf::Vector2f center;
-            unsigned int centerIndex = index/myCornerPointCount;
-            unsigned int offset = 0;
-            static const float pi = 3.141592654f;
-
-            switch(centerIndex){
-                case 0: center.x = mySize.x - myRadius; center.y = myRadius; break;
-                case 1: center.x = myRadius; center.y = myRadius; break;
-                case 2: center.x = myRadius; center.y = mySize.y - myRadius; break;
-                case 3: center.x = mySize.x - myRadius; center.y = mySize.y - myRadius; break;
-            }
-
-            return sf::Vector2f(myRadius*cos(deltaAngle*(index-centerIndex)*pi/180)+center.x,
-                                -myRadius*sin(deltaAngle*(index-centerIndex)*pi/180)+center.y);
-        }
+        virtual sf::Vector2f getPoint(std::size_t index) const;
 
     private:
          ////////////////////////////////////////////////////////////
