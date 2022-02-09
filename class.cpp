@@ -115,7 +115,7 @@ void Color_Selector::setPosition(sf::Vector2f pos){
 
 
     sf::Vector2f slider_pos = sf::Vector2f(pos.x + size.x + 8, pos.y);
-    sf::Vector2f slider_size = sf::Vector2f(32, size.y/6);
+    sf::Vector2f slider_size = sf::Vector2f(16, size.y/6);
 
     int siter = 0;
     while(siter < slider.getVertexCount()){
