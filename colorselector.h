@@ -33,7 +33,7 @@ class Color_Selector : public sf::Drawable{
 private:
     unsigned int alpha; /**<Transparency. No background is included!*/
 
-    sf::VertexArray colors; /**<256x256 grid, determined by a matrix of HSV.*/
+    sf::VertexArray colors; /**<256x256 grid, determined by HSV.*/
         sf::RoundedRectangleShape selector; /**<Handle for color selection.*/
         bool selecting; /**<Tracks mouse status for color selector.*/
 
