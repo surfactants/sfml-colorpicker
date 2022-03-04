@@ -23,31 +23,31 @@
 
 #include <SFML/Graphics.hpp>
 #include "roundedRectangle.hpp"
-#include <iostream>
 
 ////////////////////////////////////////////////////////////
-/// \brief Color selection class
+/// \brief Color selector class, in HSV
+/// with a hue slider
 ///
 ////////////////////////////////////////////////////////////
 class Color_Selector : public sf::Drawable{
 private:
-    unsigned int alpha; /**<Transparency*/
+    unsigned int alpha; /**<Transparency. No background is included!*/
 
-    sf::VertexArray colors; /**<256x256 grid for HSV handling*/
-        sf::RoundedRectangleShape selector; /**<Handle for color selection*/
-        bool selecting; /**<For tracking mouse events*/
+    sf::VertexArray colors; /**<256x256 grid, determined by a matrix of HSV.*/
+        sf::RoundedRectangleShape selector; /**<Handle for color selection.*/
+        bool selecting; /**<Tracks mouse status for color selector.*/
 
-    sf::VertexArray slider; /**<Hue selector*/
-        sf::RoundedRectangleShape slider_handle; /**<Handle for hue selection*/
-        bool sliding; /**<For tracking mouse events*/
+    sf::VertexArray slider; /**<Hue slider.*/
+        sf::RoundedRectangleShape slider_handle; /**<Handle for hue slider.*/
+        bool sliding; /**<Tracks mouse status for hue slider.*/
 
     sf::Color selected_color;
-        sf::RectangleShape selected; /**<Example object*/
+        sf::RectangleShape selected; /**<Example object of selected color.*/
 
 public:
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor. Creates the frame and slider,
-    /// and places them at (16, 16)
+    /// and places them at (16, 16).
     ///
     ////////////////////////////////////////////////////////////
     Color_Selector();
