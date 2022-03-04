@@ -18,8 +18,8 @@
 // 3. This notice may not be removed or altered from any source distribution.
 //
 ////////////////////////////////////////////////////////////
-#ifndef COLORSELECT_H
-#define COLORSELECT_H
+#ifndef COLORSELECTOR_H
+#define COLORSELECTOR_H
 
 #include <SFML/Graphics.hpp>
 #include "roundedRectangle.hpp"
