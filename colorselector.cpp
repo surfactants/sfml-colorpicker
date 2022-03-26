@@ -41,7 +41,7 @@ Color_Selector::Color_Selector(){
     slider.setPrimitiveType(sf::Quads);
     unsigned int ssize = 24;
     unsigned int v = 0;
-    slider.resize(24);
+    slider.resize(ssize);
         sf::Color slider_color = sf::Color(255,0,0);
             while(v < 2) slider[v].color = slider_color;
 
