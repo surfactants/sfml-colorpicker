@@ -39,38 +39,29 @@ Color_Selector::Color_Selector(){
     selecting = false;
 
     slider.setPrimitiveType(sf::Quads);
+    unsigned int ssize = 24;
+    unsigned int v = 0;
     slider.resize(24);
         sf::Color slider_color = sf::Color(255,0,0);
-            slider[0].color = slider_color;
-            slider[1].color = slider_color;
+            while(v < 2) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,255,0);
-            slider[2].color = slider_color;
-            slider[3].color = slider_color;
-            slider[4].color = slider_color;
-            slider[5].color = slider_color;
+            while(v < 6) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,255,0);
-            slider[6].color = slider_color;
-            slider[7].color = slider_color;
-            slider[8].color = slider_color;
-            slider[9].color = slider_color;
+            while(v < 10) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,255,255);
-            slider[10].color = slider_color;
-            slider[11].color = slider_color;
-            slider[12].color = slider_color;
-            slider[13].color = slider_color;
+            while(v < 14) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,0,255);
-            slider[14].color = slider_color;
-            slider[15].color = slider_color;
-            slider[16].color = slider_color;
-            slider[17].color = slider_color;
+            while(v < 18) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,0,255);
-            slider[18].color = slider_color;
-            slider[19].color = slider_color;
-            slider[20].color = slider_color;
-            slider[21].color = slider_color;
+            while(v < 22) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,0,0);
-            slider[22].color = slider_color;
-            slider[23].color = slider_color;
+            while(v < ssize) slider[v].color = slider_color;
 
     setPosition(sf::Vector2f(16,16));
 
