@@ -19,21 +19,19 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include "colorSelector.h"
+#include "class.h"
 
 ///////////////////////////////////
 //BEGIN COLOR_SELECTOR IMPLEMENTATION
-///////////////////////////////////
-
+//
 Color_Selector::Color_Selector(){
     alpha = 255;
-    sf::Vector2f size = sf::Vector2f(256,256);
 
     colors.setPrimitiveType(sf::Points);
     colors.resize(256*256);
 
 
-    selector = sf::RoundedRectangleShape(sf::Vector2f(8, 8), 2, 4);
+    selector = sf::RectangleShape(sf::Vector2f(8, 8));
         selector.setSize(sf::Vector2f(8,8));
         selector.setOrigin(sf::Vector2f(selector.getSize().x/2, selector.getSize().y/2));
         selector.setOutlineThickness(1);
@@ -42,45 +40,38 @@ Color_Selector::Color_Selector(){
     selecting = false;
 
     slider.setPrimitiveType(sf::Quads);
-    slider.resize(24);
+    unsigned int ssize = 24;
+    unsigned int v = 0;
+    slider.resize(ssize);
         sf::Color slider_color = sf::Color(255,0,0);
-            slider[0].color = slider_color;
-            slider[1].color = slider_color;
+            while(v < 2) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,255,0);
-            slider[2].color = slider_color;
-            slider[3].color = slider_color;
-            slider[4].color = slider_color;
-            slider[5].color = slider_color;
+            while(v < 6) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,255,0);
-            slider[6].color = slider_color;
-            slider[7].color = slider_color;
-            slider[8].color = slider_color;
-            slider[9].color = slider_color;
+            while(v < 10) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,255,255);
-            slider[10].color = slider_color;
-            slider[11].color = slider_color;
-            slider[12].color = slider_color;
-            slider[13].color = slider_color;
+            while(v < 14) slider[v].color = slider_color;
+
         slider_color = sf::Color(0,0,255);
-            slider[14].color = slider_color;
-            slider[15].color = slider_color;
-            slider[16].color = slider_color;
-            slider[17].color = slider_color;
+            while(v < 18) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,0,255);
-            slider[18].color = slider_color;
-            slider[19].color = slider_color;
-            slider[20].color = slider_color;
-            slider[21].color = slider_color;
+            while(v < 22) slider[v].color = slider_color;
+
         slider_color = sf::Color(255,0,0);
-            slider[22].color = slider_color;
-            slider[23].color = slider_color;
+            while(v < ssize) slider[v].color = slider_color;
 
     setPosition(sf::Vector2f(16,16));
 
-    slider_handle = sf::RoundedRectangleShape(sf::Vector2f(slider[1].position.x-slider[0].position.x, 12), 8, 8);
+    slider_handle = sf::RectangleShape(sf::Vector2f(slider[1].position.x-slider[0].position.x, 3));
     slider_handle.setPosition(slider[0].position);
     slider_handle.setOrigin(sf::Vector2f(0, slider_handle.getSize().y/2));
-    slider_handle.setFillColor(sf::Color(250,250,250,250));
+    slider_handle.setFillColor(sf::Color(0,0,0,0));
+    slider_handle.setOutlineColor(sf::Color(250,250,250));
+    slider_handle.setOutlineThickness(1);
     sliding = false;
 
 
@@ -117,7 +108,7 @@ void Color_Selector::setPosition(sf::Vector2f pos){
     sf::Vector2f slider_pos = sf::Vector2f(pos.x + size.x + 8, pos.y);
     sf::Vector2f slider_size = sf::Vector2f(16, size.y/6);
 
-    int siter = 0;
+    unsigned int siter = 0;
     while(siter < slider.getVertexCount()){
         slider[siter++].position = slider_pos;
             slider_pos.x += slider_size.x;
@@ -185,47 +176,41 @@ void Color_Selector::slide(sf::Vector2i mousePos){
 }
 
 void Color_Selector::setHue(){
-    const float hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y); /**<Hue, 0-1*/
-    const int hue_point = hue * 6; /**<Determines the hue's color domain*/
-    const float hue_remainder = 1.f - std::abs(fmod(hue*6.f, 2.f) - 1.f); /**<used in the calculation of the intermediate value*/
-    for(unsigned int y = 0; y < 256; y++){
-        for(unsigned int x = 0; x < 256; x++){
-            const float sat = x / 255.f; /**<saturation*/
-            const float val = 1 - y / 255.f; /**<value*/
+    const double hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y);
+    const int hp = hue * 6;
+    for(unsigned int y=0; y<256; y++){
+        for(unsigned int x=0; x<256; x++){
+            const double s = x / 255.f;
+            const double v = 1 - y / 255.f;
 
-            float c = val * sat; /**<chroma*/
-            float z = c * hue_remainder; /**<intermediate value*/
-            float m = val - c; /**<match*/
-            c += m;
-                c *= 255;
-            z += m;
-                z *= 255;
+            const double f = hue * 6 - hp;
+            const double p = v * (1 - s);
+            const double q = v * (1 - s * f);
+            const double t = v * (1 - s * (1 - f));
 
-            switch(hue_point){
-            case 0:
-            case 6: //(C,Z,0)
-                colors[y * 256 + x].color = sf::Color(c, z, m*255, alpha);
-                break;
-            case 5: //(C,0,Z)
-                colors[y * 256 + x].color = sf::Color(c, m*255, z, alpha);
-                break;
-            case 4: //(Z,0,C)
-                colors[y * 256 + x].color = sf::Color(z, m*255, c, alpha);
-                break;
-            case 3: //(0,Z,C)
-                colors[y * 256 + x].color = sf::Color(m*255, z, c, alpha);
-                break;
-            case 2: //(0,C,Z)
-                colors[y * 256 + x].color = sf::Color(m*255, c, z, alpha);
-                break;
-            case 1: //(Z,C,0)
-                colors[y * 256 + x].color = sf::Color(z, c, m*255, alpha);
-                break;
+            switch(hp) {
+                case 0:
+                case 6:
+                    colors[y * 256 + x].color = sf::Color(v * 255, t * 255, p * 255, alpha);
+                    break;
+                case 1:
+                    colors[y * 256 + x].color = sf::Color(q * 255, v * 255, p * 255, alpha);
+                    break;
+                case 2:
+                    colors[y * 256 + x].color = sf::Color(p * 255, v * 255, t * 255, alpha);
+                    break;
+                case 3:
+                    colors[y * 256 + x].color = sf::Color(p * 255, q * 255, v * 255, alpha);
+                    break;
+                case 4:
+                    colors[y * 256 + x].color = sf::Color(t * 255, p * 255, v * 255, alpha);
+                    break;
+                case 5:
+                    colors[y * 256 + x].color = sf::Color(v * 255, p * 255, q * 255, alpha);
+                    break;
             }
         }
     }
-
-    slider_handle.setFillColor(colors[255].color);
 
     select(sf::Vector2i(selector.getPosition().x, selector.getPosition().y));
 }
