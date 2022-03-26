@@ -19,12 +19,11 @@
 //
 ////////////////////////////////////////////////////////////
 
-#include "colorselector.h"
+#include "class.h"
 
 ///////////////////////////////////
 //BEGIN COLOR_SELECTOR IMPLEMENTATION
-///////////////////////////////////
-
+//
 Color_Selector::Color_Selector(){
     alpha = 255;
 
@@ -87,16 +86,6 @@ Color_Selector::Color_Selector(){
     setHue();
 }
 
-void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const{
-    target.draw(colors, states);
-        target.draw(selector, states);
-
-    target.draw(slider, states);
-        target.draw(slider_handle, states);
-
-    target.draw(selected);
-}
-
 void Color_Selector::reset(){
     slider_handle.setPosition(slider[0].position);
     selector.setPosition(colors[0].position);
@@ -117,7 +106,7 @@ void Color_Selector::setPosition(sf::Vector2f pos){
     sf::Vector2f slider_pos = sf::Vector2f(pos.x + size.x + 8, pos.y);
     sf::Vector2f slider_size = sf::Vector2f(16, size.y/6);
 
-    int siter = 0;
+    unsigned int siter = 0;
     while(siter < slider.getVertexCount()){
         slider[siter++].position = slider_pos;
             slider_pos.x += slider_size.x;
@@ -184,28 +173,6 @@ void Color_Selector::slide(sf::Vector2i mousePos){
     setHue();
 }
 
-void Color_Selector::select(sf::Vector2i mousePos){
-    selector.setPosition(mousePos.x,mousePos.y);
-
-    if(selector.getPosition().x < colors[0].position.x){
-        selector.setPosition(colors[0].position.x, selector.getPosition().y);
-    }
-    else if(selector.getPosition().x > colors[256*256-1].position.x){
-        selector.setPosition(colors[256*256-1].position.x, selector.getPosition().y);
-    }
-
-    if(selector.getPosition().y < colors[0].position.y){
-        selector.setPosition(selector.getPosition().x, colors[0].position.y);
-    }
-    else if(selector.getPosition().y > colors[256*256-1].position.y){
-        selector.setPosition(selector.getPosition().x, colors[256*256-1].position.y);
-    }
-
-    selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
-    selected.setFillColor(selected_color);
-    selector.setFillColor(selected_color);
-}
-
 void Color_Selector::setHue(){
     const float hue = (slider_handle.getPosition().y - slider[0].position.y)/(slider[23].position.y - slider[0].position.y); /**<Hue, 0-1*/
     const int hue_point = hue * 6; /**<Determines the hue's color domain*/
@@ -251,6 +218,38 @@ void Color_Selector::setHue(){
 
     select(sf::Vector2i(selector.getPosition().x, selector.getPosition().y));
 }
-///////////////////////////////////
+
+void Color_Selector::select(sf::Vector2i mousePos){
+    selector.setPosition(mousePos.x,mousePos.y);
+
+    if(selector.getPosition().x < colors[0].position.x){
+        selector.setPosition(colors[0].position.x, selector.getPosition().y);
+    }
+    else if(selector.getPosition().x > colors[256*256-1].position.x){
+        selector.setPosition(colors[256*256-1].position.x, selector.getPosition().y);
+    }
+
+    if(selector.getPosition().y < colors[0].position.y){
+        selector.setPosition(selector.getPosition().x, colors[0].position.y);
+    }
+    else if(selector.getPosition().y > colors[256*256-1].position.y){
+        selector.setPosition(selector.getPosition().x, colors[256*256-1].position.y);
+    }
+
+    selected_color = colors[(selector.getPosition().y - colors[0].position.y) * 256 + selector.getPosition().x - colors[0].position.x].color;
+    selected.setFillColor(selected_color);
+    selector.setFillColor(selected_color);
+}
+
+void Color_Selector::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+    target.draw(colors, states);
+        target.draw(selector, states);
+
+    target.draw(slider, states);
+        target.draw(slider_handle, states);
+
+    target.draw(selected);
+}
+//
 //END COLOR_SELECTOR IMPLEMENTATION
 ///////////////////////////////////
