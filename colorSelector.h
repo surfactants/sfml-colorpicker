@@ -22,46 +22,22 @@
 #define COLORSELECT_H
 
 #include <SFML/Graphics.hpp>
-#include "roundedRectangle.hpp"
 #include <iostream>
 
 ////////////////////////////////////////////////////////////
 /// \brief Color selection class
 ///
-////////////////////////////////////////////////////////////
 class Color_Selector : public sf::Drawable{
-private:
-    unsigned int alpha; /**<Transparency*/
-
-    sf::VertexArray colors; /**<256x256 grid for HSV handling*/
-        sf::RoundedRectangleShape selector; /**<Handle for color selection*/
-        bool selecting; /**<For tracking mouse events*/
-
-    sf::VertexArray slider; /**<Hue selector*/
-        sf::RoundedRectangleShape slider_handle; /**<Handle for hue selection*/
-        bool sliding; /**<For tracking mouse events*/
-
-    sf::Color selected_color;
-        sf::RectangleShape selected; /**<Example object*/
-
 public:
     ////////////////////////////////////////////////////////////
     /// \brief Default constructor. Creates the frame and slider,
     /// and places them at (16, 16)
     ///
-    ////////////////////////////////////////////////////////////
     Color_Selector();
-
-    ////////////////////////////////////////////////////////////
-    /// \brief Draws the frame, slider, and handles to the render target.
-    ///
-    ////////////////////////////////////////////////////////////
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Sets hue to 0 and returns selector to start position.
     ///
-    ////////////////////////////////////////////////////////////
     void reset();
 
     ////////////////////////////////////////////////////////////
@@ -69,7 +45,6 @@ public:
     ///
     /// \param pos top left position
     ///
-    ////////////////////////////////////////////////////////////
     void setPosition(sf::Vector2f pos);
 
     ////////////////////////////////////////////////////////////
@@ -77,7 +52,6 @@ public:
     ///
     /// \param a -> alpha
     ///
-    ////////////////////////////////////////////////////////////
     void setAlpha(unsigned int a);
 
     ////////////////////////////////////////////////////////////
@@ -85,7 +59,6 @@ public:
     ///
     /// \return selected_color
     ///
-    ////////////////////////////////////////////////////////////
     sf::Color getColor();
 
     ////////////////////////////////////////////////////////////
@@ -93,33 +66,51 @@ public:
     ///
     /// \param event reference to event object created in main loop
     ///
-    ////////////////////////////////////////////////////////////
     void readEvent(sf::Event& event);
+
+private:
+    unsigned int alpha; /**<Transparency*/
+
+    sf::VertexArray colors; /**<256x256 grid for HSV handling*/
+        sf::RectangleShape selector; /**<Handle for color selection*/
+        bool selecting; /**<For tracking mouse events*/
+
+    sf::VertexArray slider; /**<Hue selector*/
+        sf::RectangleShape slider_handle; /**<Handle for hue selection*/
+        bool sliding; /**<For tracking mouse events*/
+
+    sf::Color selected_color; /**<Tracks selected color*/
+        sf::RectangleShape selected; /**<Example object*/
 
     ////////////////////////////////////////////////////////////
     /// \brief Places hue slider according to the mouse position,
-    /// and calls setHue()
+    /// and calls setHue().
+    /// Internal.
     ///
     /// \brief mousePos -> slider_handle.setPosition(), within bounds of slider
     ///
-    ////////////////////////////////////////////////////////////
     void slide(sf::Vector2i mousePos);
 
     ////////////////////////////////////////////////////////////
     /// \brief Sets the frame to a new hue based on slider position,
-    /// and recalls select()
+    /// and recalls select().
+    /// Internal.
     ///
-    ////////////////////////////////////////////////////////////
     void setHue();
 
     ////////////////////////////////////////////////////////////
     /// \brief Places the selector.
+    /// Internal.
     ///
     /// \param mousePos -> selector.setPosition(), within bounds of colors
     ///
-    ////////////////////////////////////////////////////////////
     void select(sf::Vector2i mousePos);
 
+    ////////////////////////////////////////////////////////////
+    /// \brief Draws the frame, slider, and handles to the render target.
+    /// Internal.
+    ///
+    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 #endif
